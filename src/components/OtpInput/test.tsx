@@ -145,7 +145,7 @@ export type OtpInputHandle = {
   focusInput: (index: number) => void;
 };
 
-const OtpInput = forwardRef<OtpInputHandle, IOtpInput>((props, ref) => {
+const OtpInputr = forwardRef<OtpInputHandle, IOtpInput>((props, ref) => {
   const {
     numInputs = 4,
     onChange = (otp: string) => console.log(otp),
@@ -360,4 +360,4 @@ const OtpInput = forwardRef<OtpInputHandle, IOtpInput>((props, ref) => {
   );
 });
 
-export { OtpInput };
+export { OtpInputr };

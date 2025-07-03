@@ -3,9 +3,10 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import OtpInput from './components/OtpInput';
+import { OtpInputr } from './components/OtpInput/test';
 
 function App() {
-  const [otpValue, setOtpValue] = useState<string>("");
+  const [otpValue, setOtpValue] = useState<string>("23");
 
   const handleOtpValue = useCallback((val: string) => {
     console.log(val)
@@ -25,6 +26,9 @@ function App() {
       
       
       />
+
+
+      <OtpInputr value="324354645"/>
     </Fragment>
   )
 }

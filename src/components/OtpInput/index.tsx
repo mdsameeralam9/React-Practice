@@ -6,29 +6,22 @@ interface OTPInputProps {
   type: string;
   autoFocus: boolean;
   value: string;
+  handleOtpValue: () => void;
 }
 
 
-
-const getOtpValue = (value = "", inputLength = 4, isReqActiveIndex=false) => {
-  let data = value.split("");
-  let result = Array(inputLength).fill('');
-  let activeIndex = 0
-  for (let i = 0; i < data.length; i++) {
-    result[i] = data[i];
-    activeIndex = i
+const setOTPValueFromProps = (value:string, inputLength:number) => {
+  let state = Array(inputLength).fill("")
+  if(!value) return state;
+  for(let i=0; i<inputLength; i++){
+    state[i] = value[i]
   }
-
-  if(isReqActiveIndex){
-   return otpData
-  }else {
-    return { otpData, activeIndex }
-  }
-  
+  return state;
 }
+   
 
-const OtpInput: React.FC<OTPInputProps> = ({ value = "", inputLength = 4, type = "number", autoFocus = false }) => {
-  const [otp, setOtp] = useState(Array(inputLength).fill(""));
+const OtpInput: React.FC<OTPInputProps> = ({ value = "",handleOtpValue, inputLength = 4, type = "number", autoFocus = false }) => {
+  const [otp, setOtp] = useState(setOTPValueFromProps(value, inputLength)); //Array(inputLength).fill("")
   const inputRefs = useRef<HTMLInputElement | null[]>([]);
 
 
@@ -37,6 +30,10 @@ const OtpInput: React.FC<OTPInputProps> = ({ value = "", inputLength = 4, type =
       inputRefs.current[0].focus()
     }
   }, [])
+
+  // useEffect(() => {
+  //   setOtp(setOTPValueFromProps(value, inputLength))
+  // }, [value])
 
 
   // focusInput
@@ -82,6 +79,7 @@ const OtpInput: React.FC<OTPInputProps> = ({ value = "", inputLength = 4, type =
 
     // focu input to next
     if (value) {
+      handleOtpValue(copyOTP.join(""))
       if (index < inputLength - 1) focusInput(index + 1);
     }
 
