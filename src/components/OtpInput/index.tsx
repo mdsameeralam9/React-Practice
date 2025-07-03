@@ -82,8 +82,6 @@ const OtpInput: React.FC<OTPInputProps> = ({ value = "",handleOtpValue, inputLen
       handleOtpValue(copyOTP.join(""))
       if (index < inputLength - 1) focusInput(index + 1);
     }
-
-
   }
 
   // handle keydown to clear the input value when click backspace
