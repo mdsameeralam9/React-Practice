@@ -1,29 +1,34 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, Fragment } from 'react';
 import Input from './Input';
+import { isValidInputValue, setOTPValueFromProps, keyboardEventsKey } from './util';
+import "./style.css";
+
+type AllowedInputTypes = 'number' | 'text' | 'password';
 
 interface OTPInputProps {
-  inputLength: number;
-  type: string;
-  autoFocus: boolean;
-  value: string;
-  handleOtpValue: () => void;
+  inputLength?: number;
+  type?: AllowedInputTypes;
+  autoFocus?: boolean;
+  value?: string;
+  handleOtpValue?: (val: string) => void;
+  isDisabled?: boolean;
+  renderSeprator?:() => React.ReactNode;
+  SepratorComponent?: React.FC;
 }
 
+const OtpInput: React.FC<OTPInputProps> = (props) => {
+  const { value = "",
+    handleOtpValue = () => { },
+    inputLength = 4,
+    type = "number",
+    isDisabled = false,
+    autoFocus = false,
+    renderSeprator,
+    SepratorComponent
+  } = props;
 
-const setOTPValueFromProps = (value:string, inputLength:number) => {
-  let state = Array(inputLength).fill("")
-  if(!value) return state;
-  for(let i=0; i<inputLength; i++){
-    state[i] = value[i]
-  }
-  return state;
-}
-   
-
-const OtpInput: React.FC<OTPInputProps> = ({ value = "",handleOtpValue, inputLength = 4, type = "number", autoFocus = false }) => {
   const [otp, setOtp] = useState(setOTPValueFromProps(value, inputLength)); //Array(inputLength).fill("")
   const inputRefs = useRef<HTMLInputElement | null[]>([]);
-
 
   useEffect(() => {
     if (autoFocus) {
@@ -31,21 +36,9 @@ const OtpInput: React.FC<OTPInputProps> = ({ value = "",handleOtpValue, inputLen
     }
   }, [])
 
-  // useEffect(() => {
-  //   setOtp(setOTPValueFromProps(value, inputLength))
-  // }, [value])
-
-
   // focusInput
   function focusInput(index: number) {
     inputRefs.current[index].focus()
-  }
-
-  // validation function
-  const isValidInputValue = (value: string) => {
-    // type = ['number', 'string', 'password', 'mixed'];
-    let isValid = type === "number" ? !isNaN(parseInt(value)) : typeof value === 'string';
-    return isValid && value.trim().length === 1
   }
 
   // handleChange
@@ -67,9 +60,8 @@ const OtpInput: React.FC<OTPInputProps> = ({ value = "",handleOtpValue, inputLen
       value = value.charAt(value.length-1);
     */}
 
-
     // validataion
-    if (value !== "" && !isValidInputValue(value)) {
+    if (value !== "" && !isValidInputValue(value, type)) {
       return;
     }
 
@@ -86,9 +78,10 @@ const OtpInput: React.FC<OTPInputProps> = ({ value = "",handleOtpValue, inputLen
 
   // handle keydown to clear the input value when click backspace
   const handleKeyDown = (index: number) => (e: React.KeyboardEvent<HTMLInputElement>) => {
-    console.log(e.key)
-    const isBackSpace = e.key === 'Backspace';
+    const { BACK_SPACE_KEY, BACK_SPACE_KEY_CODE } = keyboardEventsKey
+    const isBackSpace: boolean = e.key === BACK_SPACE_KEY || e.keyCode === BACK_SPACE_KEY_CODE;
     if (isBackSpace && !otp[index] && index > 0) {
+      // e.preventDefault();
       focusInput(index - 1)
     }
   }
@@ -96,8 +89,13 @@ const OtpInput: React.FC<OTPInputProps> = ({ value = "",handleOtpValue, inputLen
   // handlePaste
   const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
     e.preventDefault();
-    let data = e.clipboardData.getData('Text').split("");
-    let result = Array(inputLength).fill('');
+
+    if (isDisabled) {
+      return;
+    }
+
+    const data = e.clipboardData.getData('text/plain').slice(0, inputLength).split("");
+    const result = Array(inputLength).fill('');
     let lastIndex = 0
     for (let i = 0; i < data.length; i++) {
       result[i] = data[i];
@@ -108,22 +106,30 @@ const OtpInput: React.FC<OTPInputProps> = ({ value = "",handleOtpValue, inputLen
   }
 
   return (
-    <div className='OtpInput'>
+    <>
       <h1>OTP Input</h1>
+       <div className='OtpInput'>
       {otp.map((val, index) => (
-        <Input
-          key={index}
-          value={val}
-          type={type}
-          ref={(input) => {
-            (inputRefs.current[index] = input)
-          }}
-          onChange={handleChange(index)}
-          onKeyDown={handleKeyDown(index)}
-          onPaste={handlePaste}
-        />
+        <Fragment key={index} >
+          <Input
+            value={val}
+            type={type}
+            ref={(input) => {
+              (inputRefs.current[index] = input)
+            }}
+            onChange={handleChange(index)}
+            onKeyDown={handleKeyDown(index)}
+            onPaste={handlePaste}
+            isDisabled={isDisabled}
+            index={index}
+          />
+          {/* {index !== inputLength - 1 && renderSeprator ? renderSeprator(): null} */}
+          {index !== inputLength - 1 && SepratorComponent ? <SepratorComponent />: null}
+        </Fragment>
       ))}
     </div>
+    </>
+ 
   )
 }
 

@@ -1,31 +1,37 @@
-import React, { Ref } from 'react';
+import React from 'react';
 
-interface InputProps{
-   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+interface InputProps {
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
     onPaste: (e: React.ClipboardEvent<HTMLInputElement>) => void;
     type: string;
     value: string;
-    ref?: Ref<HTMLInputElement>;
+    ref?: React.Ref<HTMLInputElement>;
     autoFocus?: boolean;
+    isDisabled: boolean;
+    index:number;
 }
 
-const Input:React.FC<InputProps> = (props) => {
-    const { onChange, onKeyDown, onPaste, ref, type, value, autoFocus } = props;
-    
+const Input: React.FC<InputProps> = (props) => {
+    const { onChange, onKeyDown, onPaste, ref, type,index, value, autoFocus, isDisabled } = props;
+
     return (
         <input
             className='_input-box'
             value={value}
             type={type}
-            //inputMode="numeric"
+            inputMode={type === "number" ? "numeric" :"text"}
             //pattern={'\d*'}
             //autoFocus={autoFocus}
+            autoComplete='off'
+            disabled={isDisabled}
             ref={ref}
             onChange={onChange}
             onKeyDown={onKeyDown}
             onPaste={onPaste}
+            aria-label={`Please enter OTP character ${index + 1}`}
         />
+
     )
 }
 

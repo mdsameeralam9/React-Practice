@@ -1,19 +1,20 @@
 import { Fragment, useCallback, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import OtpInput from './components/OtpInput';
-import { OtpInputr } from './components/OtpInput/test';
 
 function App() {
-  const [otpValue, setOtpValue] = useState<string>("23");
+  const [otpValue, setOtpValue] = useState<string>("");
 
   const handleOtpValue = useCallback((val: string) => {
     console.log(val)
     setOtpValue(val)
   }, [])
 
-  console.log(otpValue)
+  const SepratorComponent = () => {
+    return (
+      <p>{"-"}</p>
+    )
+  }
 
   return (
     <Fragment>
@@ -23,12 +24,10 @@ function App() {
         autoFocus={true}
         value={otpValue}
         handleOtpValue={handleOtpValue}
-      
-      
+        isDisabled={false}
+        renderSeprator={() => <p>{"-"}</p>}
+        SepratorComponent={SepratorComponent}
       />
-
-
-      <OtpInputr value="324354645"/>
     </Fragment>
   )
 }
