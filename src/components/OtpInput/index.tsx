@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, Fragment } from 'react';
 import Input from './Input';
 import { isValidInputValue, setOTPValueFromProps, keyboardEventsKey } from './util';
-import "./style.css";
 
 type AllowedInputTypes = 'number' | 'text' | 'password';
 
