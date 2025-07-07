@@ -26,7 +26,8 @@ const InputTypeCheckBox: React.FC<InputTypeCheckBoxProps> = ({ item, handleSetCh
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>, selectedInput: itemObj = {}) => {
       const isChecked = e.target.checked;
-      handleSetCheckbox(isChecked, selectedInput)
+      //handleSetCheckbox(isChecked, selectedInput)
+       handleSetCheckbox(selectedInput.id)
     }
 
     return (
