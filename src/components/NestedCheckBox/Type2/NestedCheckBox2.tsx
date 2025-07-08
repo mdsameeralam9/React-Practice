@@ -14,6 +14,7 @@ const NestedCheckBox2:React.FC = () => {
   //  setCheckBoxState(updatedCheckState)
   // }
 
+  //https://www.youtube.com/playlist?list=PLnNsQf3QlMxXD9Vnd4SeIsO0WszaZoEg9
 
   const computeStatus = (node) => {
     if (!node.children || !node.children.length > 0) {
