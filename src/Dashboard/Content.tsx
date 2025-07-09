@@ -7,6 +7,7 @@ import CheckBoxLayout from '../components/NestedCheckBox/CheckBoxLayout'
 import InfniteScroll from '../components/InfniteScroll'
 import Type2InfniteScroll from '../components/InfniteScroll/Type2/Type2InfniteScroll'
 import InfiniteWithIntersectionObserver from '../components/InfniteScroll/Typer1/Layout'
+import InfniteScrollWithHieght from '../components/InfniteScroll/Type3/InfniteScrollWithHieght'
 
 const Content = () => {
   return (
@@ -21,6 +22,7 @@ const Content = () => {
         <Route path='/' element={<InfniteScroll />}>
           <Route index element={<Type2InfniteScroll />} />
           <Route path="type2" element={<InfiniteWithIntersectionObserver />} />
+          <Route path="type3" element={<InfniteScrollWithHieght />} />
         </Route>
 
       </Routes>
