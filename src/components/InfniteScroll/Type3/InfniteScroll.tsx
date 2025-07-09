@@ -1,30 +1,39 @@
-import React from 'react'
+import React, { ReactNode, UIEvent } from 'react';
 
-const stylesrollWraper = {
-    display: "flex",
-    flexDirection: "column",
-    gap: "10px",
-    overflow: "auto",
-    height: "400px"
+const stylesrollWraper: React.CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '10px',
+  overflow: 'auto',
+  height: '400px',
+};
+
+const THRESHOLD = 20;
+
+interface InfiniteScrollProps {
+  children: ReactNode;
+  setData: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
-const InfniteScroll = ({ children, setData }) => {
-    function handleScroll(e) {
-        const { scrollHeight, clientHeight, scrollTop } = e.target
-        const remainScroll = scrollHeight - (scrollTop + clientHeight)
-        if (remainScroll < 20) {
-            setData(p => [...p, ...new Array(10)])
-        }
+const InfiniteScroll: React.FC<InfiniteScrollProps> = ({ children, setData }) => {
+  function handleScroll(e: UIEvent<HTMLDivElement>) {
+    const { scrollHeight, clientHeight, scrollTop } = e.currentTarget;
+    const remainScroll = scrollHeight - (scrollTop + clientHeight);
+
+    if (remainScroll < THRESHOLD) {
+      setData((prev) => [...prev, ...new Array(10).fill(null)]);
     }
+  }
 
-    return (
-        <div
-            style={stylesrollWraper}
-            className='srollWraper'
-            onScroll={handleScroll}
-        >{children}
-        </div>
-    )
-}
+  return (
+    <div
+      style={stylesrollWraper}
+      className="scrollWrapper"
+      onScroll={handleScroll}
+    >
+      {children}
+    </div>
+  );
+};
 
-export default InfniteScroll
+export default InfiniteScroll;
