@@ -1,0 +1,32 @@
+.LayoutLogin {
+    background: #000;
+    color: white;
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem;
+    align-items: center;
+}
+
+.formWrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid;
+    margin-top: 3rem;
+    padding: 1rem 0;
+}
+
+.formWrap>form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.buttonF {
+    background: lightblue;
+    border: none;
+    padding: 5px 3rem;
+    cursor: pointer;
+}

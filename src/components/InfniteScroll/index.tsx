@@ -11,6 +11,8 @@ const InfniteScroll: React.FC = () => {
         <Link to="/">Infnite Scroll Type 1</Link>
         <Link to="/type2">Infnite Scroll Type 2</Link>
         <Link to="/type3">Infnite Scroll Type 3</Link>
+        <Link to="/type4">VirtualList</Link>
+
       </div>
       <Outlet />
     </div>

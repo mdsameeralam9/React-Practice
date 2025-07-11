@@ -8,6 +8,9 @@ import InfniteScroll from '../components/InfniteScroll'
 import Type2InfniteScroll from '../components/InfniteScroll/Type2/Type2InfniteScroll'
 import InfiniteWithIntersectionObserver from '../components/InfniteScroll/Typer1/Layout'
 import InfniteScrollWithHieght from '../components/InfniteScroll/Type3/InfniteScrollWithHieght'
+import ReactHooksLayout from '../components/React_Hooks/ReactHooksLayout'
+import Virtualisation from '../components/InfniteScroll/Virtualisation/Layout'
+import LayoutLogin from '../components/AllFormTypes/Login/LayoutLogin'
 
 const Content = () => {
   return (
@@ -23,8 +26,12 @@ const Content = () => {
           <Route index element={<Type2InfniteScroll />} />
           <Route path="type2" element={<InfiniteWithIntersectionObserver />} />
           <Route path="type3" element={<InfniteScrollWithHieght />} />
+           <Route path="type4" element={<Virtualisation />} />
         </Route>
 
+        <Route path="/ReactHooksLayout" element={<ReactHooksLayout />}/>
+
+        <Route path='/LayoutLogin' element={<LayoutLogin />}/>
       </Routes>
     </div>
   )
