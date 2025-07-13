@@ -1,96 +1,120 @@
 import React, { useRef, useState } from 'react';
-import { FaFileCirclePlus } from "react-icons/fa6";
-import { FaFolderPlus } from "react-icons/fa6";
-import { FaFolder } from "react-icons/fa";
-import { FaFileCode } from "react-icons/fa";
-import { MdModeEdit } from "react-icons/md";
-import { RiDeleteBin6Fill } from "react-icons/ri";
+import { FaFileCirclePlus, FaFolderPlus, FaFolder, FaFileCode } from 'react-icons/fa6';
+import { MdModeEdit } from 'react-icons/md';
+import { RiDeleteBin6Fill } from 'react-icons/ri';
 
 export interface NewItem {
-    id: string;
-    name: string;
-    isFolder: boolean;
+  id: string;
+  name: string;
+  isFolder: boolean;
 }
 
 export interface FileItem {
-    id: string;
-    name: string;
-    isFolder: boolean;
-    items: FileItem[]
+  id: string;
+  name: string;
+  isFolder: boolean;
+  items: FileItem[];
 }
 
-interface PropsInterFace {
-    data: FileItem;
-    handleNewNode: () => void;
+interface PropsInterface {
+  data: FileItem;
+  handleNewNode: (newNode: NewItem) => void;
+  handleDeleteNode: (id: string) => void;
+  handleEditNode: (newNode: NewItem) => void;
 }
 
-const FolderAndFile: React.FC<PropsInterFace> = ({ data, handleNewNode }) => {
-    const [showChildNode, setShowChildNode] = useState<boolean>(false);
-    const [inputValue, setInputValue] = useState<string>('');
-    const [showInput, setShowInput] = useState<boolean>(false);
-    const selectedISFolder = useRef<boolean>(false)
+const FolderAndFile: React.FC<PropsInterface> = ({
+  data,
+  handleNewNode,
+  handleDeleteNode,
+  handleEditNode
+}) => {
+  const [showChildNode, setShowChildNode] = useState<boolean>(false);
+  const [inputValue, setInputValue] = useState<string>('');
+  const [showInput, setShowInput] = useState<boolean>(false);
+  const selectedIsFolder = useRef<boolean>(false);
+  const isEditing = useRef<boolean>(false);
 
-    const handleAdd = (e: React.MouseEvent<HTMLElement>, isFolder: boolean) => {
-        e.stopPropagation();
-        setShowInput(true);
-        selectedISFolder.current = isFolder;
-    }
+  const handleAdd = (e: React.MouseEvent<HTMLElement>, isFolder: boolean) => {
+    e.stopPropagation();
+    setShowInput(true);
+    selectedIsFolder.current = isFolder;
+    isEditing.current = false;
+  };
 
-    const handleSubmit = (e: React.FocusEvent<HTMLFormElement>, id: string) => {
-        e.preventDefault();
-        setShowInput(false)
-        const newNode: NewItem = {
-            name: inputValue,
-            id,
-            isFolder: selectedISFolder.current
-        }
-        setInputValue("")
-        handleNewNode(newNode)
-    }
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>, id: string) => {
+    e.preventDefault();
+    const newNode: NewItem = {
+      name: inputValue,
+      id,
+      isFolder: selectedIsFolder.current
+    };
+    setShowInput(false);
+    setInputValue('');
+    isEditing.current ? handleEditNode(newNode) : handleNewNode(newNode);
+  };
 
-    const { id, name, isFolder, items } = data;
+  const handleEdit = (e: React.MouseEvent, node: FileItem) => {
+    e.stopPropagation();
+    setInputValue(node.name);
+    setShowInput(true);
+    isEditing.current = true;
+    selectedIsFolder.current = node.isFolder;
+  };
 
-    if (isFolder) {
-        return (
+  const handleDelete = (e: React.MouseEvent, id: string) => {
+    e.stopPropagation();
+    handleDeleteNode(id);
+  };
+
+  const { id = '', name = '', isFolder = false, items = [] } = data;
+
+  return (
+    <>
+      <div className="FolderAndFile" onClick={() => setShowChildNode(p => !p)}>
+        <div className="folderName">
+          <span>{isFolder ? <FaFolder /> : <FaFileCode />}</span>
+          <span>{name}</span>
+        </div>
+        <div className="folderAction">
+          {isFolder && (
             <>
-                <div className='FolderAndFile' onClick={() => setShowChildNode(p => !p)}>
-                    <div className="folderName">
-                        <span><FaFolder /></span>
-                        <span>{name}</span>
-                    </div>
-
-                    <div className="folderAction">
-                        <span className="folderActionItem" onClick={(e) => handleAdd(e, true)}><FaFolderPlus /></span>
-                        <span className="folderActionItem" onClick={(e) => handleAdd(e, false)}><FaFileCirclePlus /></span>
-                    </div>
-                </div>
-                {showInput &&
-                    <form onSubmit={(e) => handleSubmit(e, id)}>
-                        <input style={{width: "100%"}} type='text' value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
-                    </form>
-
-                }
-                {showChildNode && items?.length > 0 &&
-                    <div className="childrenFileFOlder" style={{ paddingLeft: "20px" }}>
-                        {items.map((child => (
-                            <FolderAndFile key={child.id} data={child}  handleNewNode={handleNewNode}/>
-                        )))}
-                    </div>
-                }
-
+              <span className="folderActionItem" onClick={(e) => handleAdd(e, true)}><FaFolderPlus /></span>
+              <span className="folderActionItem" onClick={(e) => handleAdd(e, false)}><FaFileCirclePlus /></span>
             </>
+          )}
+          <span className="folderActionItem" onClick={(e) => handleEdit(e, data)}><MdModeEdit /></span>
+          <span className="folderActionItem" onClick={(e) => handleDelete(e, id)}><RiDeleteBin6Fill /></span>
+        </div>
+      </div>
 
-        )
+      {showInput && (
+        <form onSubmit={(e) => handleSubmit(e, id)}>
+          <input
+            style={{ width: '100%' }}
+            type="text"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            autoFocus
+          />
+        </form>
+      )}
 
-    } else {
-        return (
-            <div className='FolderAndFile'>
-                <span><FaFileCode /></span>
-                <span>{name}</span>
-            </div>
-        )
-    }
+      {showChildNode && isFolder && items.length > 0 && (
+        <div className="childrenFileFolder" style={{ paddingLeft: '20px' }}>
+          {items.map(child => (
+            <FolderAndFile
+              key={child.id}
+              data={child}
+              handleNewNode={handleNewNode}
+              handleDeleteNode={handleDeleteNode}
+              handleEditNode={handleEditNode}
+            />
+          ))}
+        </div>
+      )}
+    </>
+  );
+};
 
-}
-
-export default FolderAndFile
+export default FolderAndFile;
