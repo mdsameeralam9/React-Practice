@@ -39,7 +39,7 @@ const editNodeFromTree = (newNode: NewItem, nodeTree: FileItem): FileItem => {
 };
 
 const FileExplorer: React.FC = () => {
-    const [sidebarWidth, setSidebarWidth] = useState<number>(350);
+    const [sidebarWidth, setSidebarWidth] = useState<number>(300);
     const [fileData, setFileData] = useState<FileItem>(explorer);
     const isResizing = useRef<boolean>(false);
 
