@@ -6,7 +6,9 @@ const sideBarData = [
   {id: 2, label: "Otp Component", to: "/otp"},
   {id: 3, label: "Nexted Checkbox", to: "/nestedcheckbox"},
   {id: 4, label: "React Logic", to: "/"},
-  {id: 5, label: "React LayoutLogin", to: "/LayoutLogin"}
+  {id: 5, label: "React LayoutLogin", to: "/LayoutLogin"},
+  {id: 6, label: "FileExplorer", to: "/fileExplorer"}
+  
 ]
 
 

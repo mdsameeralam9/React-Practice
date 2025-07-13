@@ -1,41 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from './Button';
 import { axiosInstance } from './axiosInstance';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-// function delay() {
-//   return new Promise((res) => setTimeout(() => res("hello"), 3000));
-// }
 
 const Form = () => {
+  const [token, setToken] = useState('');
+  const location = useLocation();
+  const navigate = useNavigate();
+  const fromLocation = "/LayoutLogin/dashboardAfter" // location.state?.from?.pathname ?? "/LayoutLogin/dashboardAfter"
+
+  console.log(location)
+
   const handleFormSubmit = async(formData) => {
     const formdata = {
-      name: formData.get('name'),
       email: formData.get('email'),
       password: formData.get('password'),
-      "avatar": "https://picsum.photos/800"
     }
-
-    // simulate delay
-    //await delay();
 
     // api call
     
-    const res = await axiosInstance.post('/users/', formdata);
+    const res = await axiosInstance.post('/login', formdata);
     console.log(res)
     // and get token and store it at frontend
     // redirecto dashboard
-
-   
-   
+    navigate(fromLocation, {replace: true})
   };
 
   return (
     <div className='formWrap'>
       <form action={handleFormSubmit}>
-         <div className="item">
+         {/* <div className="item">
           <label>Name</label>
           <input type='name' name='name' />
-        </div>
+        </div> */}
         <div className="item">
           <label>Email</label>
           <input type='email' name='email' />

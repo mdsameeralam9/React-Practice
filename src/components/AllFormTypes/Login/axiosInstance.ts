@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-  baseURL: "https://api.escuelajs.co/api/v1",
+  baseURL: "http://localhost:3000/api",
   // timeout: 5000,
   // withCredentials: true
 });
@@ -9,11 +9,11 @@ export const axiosInstance = axios.create({
 // Response interceptor
 axiosInstance.interceptors.response.use(
   (response) => {
-    console.log("Response:", response);
+    //console.log("Response:", response);
     return response; // Must return response
   },
   (error) => {
-    console.error("Response Error:", error);
+    //console.error("Response Error:", error);
     return Promise.reject(error);
   }
 );
@@ -21,11 +21,11 @@ axiosInstance.interceptors.response.use(
 // Request interceptor
 axiosInstance.interceptors.request.use(
   (request) => {
-    console.log("Request:", request);
+   // console.log("Request:", request);
     return request; // Must return request
   },
   (error) => {
-    console.error("Request Error:", error);
+   // console.error("Request Error:", error);
     return Promise.reject(error);
   }
 );
