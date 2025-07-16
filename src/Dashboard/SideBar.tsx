@@ -7,7 +7,13 @@ const sideBarData = [
   {id: 3, label: "Nexted Checkbox", to: "/nestedcheckbox"},
   {id: 4, label: "React Logic", to: "/"},
   {id: 5, label: "React LayoutLogin", to: "/LayoutLogin"},
-  {id: 6, label: "FileExplorer", to: "/fileExplorer"}
+  {id: 6, label: "FileExplorer", to: "/fileExplorer"},
+  {id: 16, label: "MemoryGame", to: "/memoryGame"},
+  {id: 7, label: "Selectable Grid", to: "/selectableGrid"},
+  {id: 8, label: "Nested Comment", to: "/nestedComment"},
+  {id: 9, label: "Google Calender", to: "/goodleCalender"},
+
+  
   
 ]
 

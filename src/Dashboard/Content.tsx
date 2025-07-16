@@ -12,6 +12,8 @@ import ReactHooksLayout from '../components/React_Hooks/ReactHooksLayout'
 import Virtualisation from '../components/InfniteScroll/Virtualisation/Layout'
 import LayoutLogin from '../components/AllFormTypes/Login/LayoutLogin'
 import FileExplorer from '../components/FileExplorer'
+import ImagePositioner from '../components/AllFormTypes/ImagesForm'
+import MemoryGame from '../components/MemoryGame'
 
 const Content = () => {
   return (
@@ -32,8 +34,11 @@ const Content = () => {
 
         <Route path="/ReactHooksLayout" element={<ReactHooksLayout />}/>
 
-        <Route path='/LayoutLogin' element={<LayoutLogin />}/>
+        <Route path='/LayoutLogin' element={<ImagePositioner />}/>
        <Route path='/fileExplorer' element={<FileExplorer />}/>
+       <Route path='/memoryGame' element={<MemoryGame />}/>
+
+       
         
       </Routes>
     </div>
