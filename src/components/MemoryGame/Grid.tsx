@@ -4,11 +4,12 @@ import type { GridItem } from './ReactMemoryGameComponent';
 interface GridInterface {
   item:GridItem;
   handleCardClick: (item: GridItem) => void;
+  inIncluded:boolean;
 }
 
-const Grid:React.FC<GridInterface> = ({ item, handleCardClick }) => {
+const Grid:React.FC<GridInterface> = ({ item, handleCardClick, inIncluded }) => {
   return (
-    <div className='memGrid' onClick={() => handleCardClick(item)}>{item.value}</div>
+    <div className={`${inIncluded && "bgBlue"} memGrid`} onClick={() => handleCardClick(item)}>{inIncluded ? item.value : "?"}</div>
   )
 }
 
