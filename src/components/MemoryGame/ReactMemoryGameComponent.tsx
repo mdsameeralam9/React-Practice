@@ -17,14 +17,32 @@ const ReactMemoryGameComponent: React.FC<MemPropsInterface> = ({ size }) => {
     const [flippedCard, setFlippedCard] = useState<number[]>([]);
     const [pairCard, setPairCard] = useState<number[]>([]);
 
+    // const initializeGrid = useCallback(() => {
+    //     console.log("initializeGrid recreated");
+    //     const totalItem: number = size * size;
+    //     const pairItem: number = Math.floor(totalItem / 2)
+    //     const array = Array.from({ length: pairItem }, (_, index) => index + 1);
+    //     const suffledArray: GridItem[] = [...array, ...array]
+    //         .sort(() => Math.random() - 0.5)
+    //         .slice(0, totalItem)
+    //         .map((value, id) => ({ id, value}));
+
+    //     setGrid(suffledArray);
+    //     setIsWon(false);
+    //     setDisabledCard(false)
+    //     setFlippedCard([]);
+    //     setPairCard([]);
+    // }, [size])
+
     const initializeGrid = () => {
+        console.log("initializeGrid recreated");
         const totalItem: number = size * size;
         const pairItem: number = Math.floor(totalItem / 2)
         const array = Array.from({ length: pairItem }, (_, index) => index + 1);
         const suffledArray: GridItem[] = [...array, ...array]
             .sort(() => Math.random() - 0.5)
             .slice(0, totalItem)
-            .map((val, idx) => ({ id: idx, value: val }));
+            .map((value, id) => ({ id, value}));
 
         setGrid(suffledArray);
         setIsWon(false);
@@ -47,8 +65,7 @@ const ReactMemoryGameComponent: React.FC<MemPropsInterface> = ({ size }) => {
             copy.push(itemId)
             setFlippedCard(copy);
             if (grid[itemId]?.value === grid[firstId]?.value) {
-                const copyPairCards = [...pairCard]
-                copyPairCards.push(copy[0], itemId)
+                const copyPairCards = [...new Set([...pairCard, firstId, itemId])]
                 setPairCard(copyPairCards);
                 setDisabledCard(false);
                 setFlippedCard([]);
@@ -69,28 +86,34 @@ const ReactMemoryGameComponent: React.FC<MemPropsInterface> = ({ size }) => {
         initializeGrid()
     }, [size])
 
-    if (isWon) return (
-        <>
-            <h1>You Won the Game</h1>
-            <button onClick={reset} style={{ padding: "5px 3rem", cursor: "pointer", marginTop: "1rem" }}>{isWon ? "Play Again!" : "Reset"}</button>
-        </>
-    )
+    const isFlippedCard = useCallback(
+        (val: number): boolean => flippedCard.includes(val),
+        [flippedCard]
+    );
 
-    const isItmeIncluded = (val: number): boolean => (flippedCard.includes(val) || pairCard.includes(val))
+    const isPairMatched = useCallback(
+        (val: number): boolean => pairCard.includes(val),
+        [pairCard]
+    );
 
     return (
         <div className='gamWrapper'>
-            <div className='ReactMemoryGameComponent' style={{ gridTemplateColumns: `repeat(${size} 1fr)` }}>
+            <div className='ReactMemoryGameComponent' style={{
+                marginTop: "1rem", display: "grid", gap: "4px", gridTemplateColumns: `repeat(${size}, 1fr)`
+            }}>
                 {grid?.map((item) => (
                     <Grid
                         key={item.id}
                         item={item}
                         handleCardClick={handleCardClick}
-                        inIncluded={isItmeIncluded(item.id)}
+                        isFlippedCard={isFlippedCard(item.id)}
+                        isPairMatched={isPairMatched(item.id)}
                     />
                 ))}
             </div>
 
+            {isWon && <h1>You Won the Game</h1>}
+            <button onClick={reset} style={{ padding: "5px 3rem", cursor: "pointer", marginTop: "1rem" }}>{isWon ? "Play Again!" : "Reset"}</button>
         </div>
     )
 }

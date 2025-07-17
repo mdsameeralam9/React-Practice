@@ -2,14 +2,15 @@ import React from 'react'
 import type { GridItem } from './ReactMemoryGameComponent';
 
 interface GridInterface {
-  item:GridItem;
+  item: GridItem;
   handleCardClick: (id: number) => void;
-  inIncluded:boolean;
+  isFlippedCard: boolean;
+  isPairMatched:boolean;
 }
 
-const Grid:React.FC<GridInterface> = ({ item, handleCardClick, inIncluded }) => {
+const Grid: React.FC<GridInterface> = ({ item, handleCardClick, isFlippedCard, isPairMatched }) => {
   return (
-    <div className={`${inIncluded && "bgBlue"} memGrid`} onClick={() => handleCardClick(item.id)}>{inIncluded ? item.value : "?"}</div>
+    <div style={{ pointerEvents: isPairMatched ? 'none' : 'auto', }} className={`memGrid  ${isPairMatched ?  "bgGreen" : (isFlippedCard ? "bgBlue" : "bgGray")}`} onClick={() => handleCardClick(item.id)}>{(isFlippedCard || isPairMatched) ? item.value : "?"}</div>
   )
 }
 
