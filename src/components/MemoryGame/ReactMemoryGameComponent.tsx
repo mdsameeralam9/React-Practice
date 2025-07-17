@@ -17,25 +17,7 @@ const ReactMemoryGameComponent: React.FC<MemPropsInterface> = ({ size }) => {
     const [flippedCard, setFlippedCard] = useState<number[]>([]);
     const [pairCard, setPairCard] = useState<number[]>([]);
 
-    // const initializeGrid = useCallback(() => {
-    //     console.log("initializeGrid recreated");
-    //     const totalItem: number = size * size;
-    //     const pairItem: number = Math.floor(totalItem / 2)
-    //     const array = Array.from({ length: pairItem }, (_, index) => index + 1);
-    //     const suffledArray: GridItem[] = [...array, ...array]
-    //         .sort(() => Math.random() - 0.5)
-    //         .slice(0, totalItem)
-    //         .map((value, id) => ({ id, value}));
-
-    //     setGrid(suffledArray);
-    //     setIsWon(false);
-    //     setDisabledCard(false)
-    //     setFlippedCard([]);
-    //     setPairCard([]);
-    // }, [size])
-
-    const initializeGrid = () => {
-        console.log("initializeGrid recreated");
+    const initializeGrid = useCallback(() => {
         const totalItem: number = size * size;
         const pairItem: number = Math.floor(totalItem / 2)
         const array = Array.from({ length: pairItem }, (_, index) => index + 1);
@@ -49,7 +31,7 @@ const ReactMemoryGameComponent: React.FC<MemPropsInterface> = ({ size }) => {
         setDisabledCard(false)
         setFlippedCard([]);
         setPairCard([]);
-    }
+    }, [size])
 
     const reset = () => initializeGrid();
 
@@ -84,7 +66,7 @@ const ReactMemoryGameComponent: React.FC<MemPropsInterface> = ({ size }) => {
 
     useEffect(() => {
         initializeGrid()
-    }, [size])
+    }, [initializeGrid])
 
     const isFlippedCard = useCallback(
         (val: number): boolean => flippedCard.includes(val),
