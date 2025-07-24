@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+.verify-container {
+  width: 400px;
+  margin: 60px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+}
+
+.verify-container h2 {
+  font-size: 20px;
+  color: #000000;
+  margin-bottom: 15px;
+}
+
+.instruction {
+  font-size: 15px;
+  color: #333333;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.code-inputs {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+
+.code-inputs input {
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  text-align: center;
+  border-radius: 6px;
+  /* border: 1px solid #ccc; */
+  box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.1);
+  outline: none;
+  background-color: #fff;
+  border: none;
+}
+
+
+.verify-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #6A1B9A;
+  /* Correct purple shade */
+  color: #ffffff;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.verify-button:hover {
+  background-color: #5a1785;
+}
+
+.resend-text {
+  margin-top: 15px;
+  font-size: 13px;
+  color: #333333;
+}
+
+.resend-text {
+  color: #1a73e8;
+  cursor: pointer;
+  text-decoration: underline;
+}

@@ -14,6 +14,8 @@ import LayoutLogin from '../components/AllFormTypes/Login/LayoutLogin'
 import FileExplorer from '../components/FileExplorer'
 import ImagePositioner from '../components/AllFormTypes/ImagesForm'
 import MemoryGame from '../components/MemoryGame'
+import VerifyAccount from '../components/CardVerify'
+import DragAndDrop from '../components/DragAndDrop'
 
 const Content = () => {
   return (
@@ -29,17 +31,16 @@ const Content = () => {
           <Route index element={<Type2InfniteScroll />} />
           <Route path="type2" element={<InfiniteWithIntersectionObserver />} />
           <Route path="type3" element={<InfniteScrollWithHieght />} />
-           <Route path="type4" element={<Virtualisation />} />
+          <Route path="type4" element={<Virtualisation />} />
         </Route>
 
-        <Route path="/ReactHooksLayout" element={<ReactHooksLayout />}/>
+        <Route path="/ReactHooksLayout" element={<ReactHooksLayout />} />
 
-        <Route path='/LayoutLogin' element={<ImagePositioner />}/>
-       <Route path='/fileExplorer' element={<FileExplorer />}/>
-       <Route path='/memoryGame' element={<MemoryGame />}/>
-
-       
-        
+        <Route path='/LayoutLogin' element={<ImagePositioner />} />
+        <Route path='/fileExplorer' element={<FileExplorer />} />
+        <Route path='/memoryGame' element={<MemoryGame />} />
+        <Route path='/VerifyAccount' element={<VerifyAccount />} />
+        <Route path='/dragAndDrop' element={<DragAndDrop />} />
       </Routes>
     </div>
   )
